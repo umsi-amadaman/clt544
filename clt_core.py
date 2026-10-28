@@ -33,7 +33,7 @@ def density(name,x,result):
     return .5*stats.norm.pdf(x,mu-sep*sd,sd/2)+.5*stats.norm.pdf(x,mu+sep*sd,sd/2)
 def plot_rows(result,rows=('population','samples','means','pooled'),names=NAMES,overlay=True):
     rows=list(rows);names=list(names)
-    fig,axs=plt.subplots(len(rows),len(names),figsize=(3.5*len(names),2.5*len(rows)),squeeze=False)
+    fig,axs=plt.subplots(len(rows),len(names),figsize=(3.5*len(names),3.5*len(rows)),squeeze=False)
     mu,sd=result['mu'],result['sd'];xs=np.linspace(mu-5*sd,mu+5*sd,1400)
     labels={'population':'Population density','samples':'First 12 samples; orange = mean','means':'One mean per sample','pooled':'All individual observations pooled'}
     for i,row in enumerate(rows):
@@ -55,7 +55,8 @@ def plot_rows(result,rows=('population','samples','means','pooled'),names=NAMES,
             ax.hist(a.ravel(),bins=50,density=True,color='#92C5DE',alpha=.8)
             ax.plot(xs,density(name,xs,result),color=BLUE,lw=1.5)
         ax.axvline(mu,color='gray',ls=':',lw=1)
-        ax.set_xlim(xs[0],xs[-1]);ax.set_title(f'{name} — {labels[row]}',fontsize=10)
+        ax.set_xlim(xs[0],xs[-1]);ax.set_title(f'{name}\n{labels[row]}',fontsize=14)
+        ax.tick_params(labelsize=12)
         ax.spines[['top','right']].set_visible(False)
         if row!='samples':ax.set_ylabel('Density')
         if i==len(rows)-1:ax.set_xlabel('Value' if row!='means' else 'Sample mean')
